@@ -1,7 +1,8 @@
 {
   "name": "enhance-middleware",
-  "version": "0.0.1-experimental",
+  "version": "0.0.2-experimental",
   "main": "src/index.mjs",
+  "files":["src"],
   "scripts": {
     "start": "cd test/mock-app && begin dev",
     "lint": "eslint ./src/**/*.mjs --fix"
