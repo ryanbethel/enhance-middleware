@@ -1,0 +1,14 @@
+{
+  "name": "mock-app",
+  "version": "0.0.1",
+  "description": "test pkg",
+  "main": "index.js",
+  "scripts": {
+    "test": "enhance dev"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "enhance-middleware": "file:../.."
+  }
+}
