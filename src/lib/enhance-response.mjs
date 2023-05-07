@@ -40,6 +40,10 @@ export default function enhanceResponse(req) {
     response.location = path
     return response
   }
+  response.clearLocation = function() {
+    delete response.location
+    return response
+  }
   // Json/Data helpers
   response.getData = function() { return response.json }
   response.setData = function(obj) {

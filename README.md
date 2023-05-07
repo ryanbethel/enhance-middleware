@@ -75,24 +75,25 @@ The primary API for `enhance-middleware` is the response helpers exposed in the 
 Each of these methods (except for getSession and getData) returns the response object so they can be chained together.
 
 ### Session Helpers
-- `getSession()`
-- `setSession(newSession)`
-- `clearSession()`
-- `deleteSession(keys)`
-- `addSession(obj)`
+- `getSession()`: Get the current session object.
+- `setSession(newSession)`: Set a new obect as the outgoing session.
+- `clearSession()`: Clear the session.
+- `deleteSession(keys)`: Delete selected keys from the session. Takes a single string key, or an Array of strings of keys to remove.
+- `addSession(obj)`: Add an object to the session by spreading it into the current session. 
 
 ### Redirect Location Helpers
-- `setLocation(path)`
+- `setLocation(path)`: Set a redirect location for the response. 
+- `clearLocation()`: Clear any redirect path that has been set for the response.
 
 ### Data/JSON Helpers
-- `getData()`
-- `setData(obj)`
-- `clearData()`
-- `deleteData(keys)`
-- `addData(obj)`
+- `getData()`: Get the `json` data that has been set on the response.
+- `setData(obj)`: Set a new object as the `json` data for the response. 
+- `clearData()`: Clear any `json` data set for the response.
+- `deleteData(keys)`: Delete and remove selected keys from the response. Accepts a string for a single key or an array of strings.
+- `addData(obj)`: Add an object to `json` data by spreading it into the existing data.
 
 ### Send Response
-- `send()`
+- `send()`: Removes the methods like `getData` etc. from the response object and returns the clean response. This is handled internally by the wrapper function and does not need to be explicitly called in most situations.
 
 ## What it does
 Enhance-middleware is consumed as a wrapper function used in any Enhance API route.
