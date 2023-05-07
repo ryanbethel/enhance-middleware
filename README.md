@@ -18,7 +18,7 @@ The goal is to test ideas and patterns for middleware to support Enhance.
 
 ## Basic Usage
 
-```javascipt
+```JavaScript
 //app/api/index.mjs
 import midWrap from 'enhance-middleware'
 export const get = midWrap([one, two])
@@ -34,7 +34,7 @@ async function two (req,response) {
 
 
 ## Global Middleware Usage
-```javascipt
+```JavaScript
 //app/middleware/global-middleware.mjs
 import {makeGlobalWrap} from 'enhance-middleware'
 import otherStuff from './other-stuff.mjs'
@@ -56,7 +56,7 @@ export const globeWrap = makeGlobalWrap(manifest)
 ```
 
 
-```javascipt
+```JavaScript
 //app/api/index.mjs
 import globeWrap from '../middleware/global-middleware.mjs'
 export const get = midWrap([one, two])
@@ -109,7 +109,7 @@ There is an alternate usage to wrap just a single middlware function without usi
 Enhance middleware is backward compatible with normal enhance API route handlers.
 They can be used together. 
 
-```javascipt
+```JavaScript
 //app/api/index.mjs
 import midWrap from 'enhance-middleware'
 export const get = midWrap([one, two])
@@ -140,7 +140,7 @@ It may contain a authenticated account, shopping cart, and form data.
 A normal operation may require removing specific session keys, adding other keys, and passing along unknown keys used elsewhere.
 This is usually handled by spreading data on or off while creating new copies of the session.
 
-```javascipt
+```JavaScript
 async function form (req) {
  if (req.session.problems) {
   let { problems, book, ...newSession } = req.session
@@ -159,7 +159,7 @@ The only way to pass data along is to hang it on the request and then pull it of
 This makes it difficult to share middleware accross projects without consistent patterns for how to handle this passing.
 It can be easy to lose data if whatever middleware returns a response misses pulling off passed data and adding it to that response.
 
-```javascipt
+```JavaScript
 export let get = [one, two]
 
 async function one (req) {
