@@ -1,5 +1,3 @@
-import enhanceResponse from './enhance-response.mjs'
-export default function navData(req){
-  const response = enhanceResponse(req)
+export default function navData(req,response){
   response.addData({path:req.path})
 }

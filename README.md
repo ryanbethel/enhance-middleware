@@ -5,7 +5,7 @@ Includes:
 - Global middleware handlers
 - Response for data passing between middleware
 - Helpers for sessions
-- Helpers for data passing accross middleware
+- Helpers for data passing across middleware
 
 ## *Experimental*
 
@@ -21,7 +21,7 @@ The goal is to test ideas and patterns for middleware to support Enhance.
 ```JavaScript
 //app/api/index.mjs
 import midWrap from 'enhance-middleware'
-export const get = midWrap([one, two])
+export const get = midWrap(one, two)
 
 async function one (req,response) {
   response.addData({first:true})
@@ -31,7 +31,6 @@ async function two (req,response) {
   return response.addData({second:true})
 }
 ```
-
 
 ## Global Middleware Usage
 ```JavaScript
@@ -59,7 +58,7 @@ export const globeWrap = makeGlobalWrap(manifest)
 ```JavaScript
 //app/api/index.mjs
 import globeWrap from '../middleware/global-middleware.mjs'
-export const get = midWrap([one, two])
+export const get = globeWrap(one, two)
 
 async function one (req,response) {
   response.addData({first:true})
@@ -69,7 +68,6 @@ async function two (req,response) {
   return response.addData({second:true})
 }
 ```
-
 
 ## API 
 The primary API for `enhance-middleware` is the response helpers exposed in the handler response object.
