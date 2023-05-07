@@ -1,4 +1,4 @@
-import midWrap from '../middleware/middleware-wrapper.mjs'
+import midWrap from 'enhance-middleware'
 
 export const get = midWrap(people, places, things)
 

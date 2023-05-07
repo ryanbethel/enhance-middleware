@@ -4,7 +4,8 @@
   "main": "src/index.mjs",
   "files":["src"],
   "scripts": {
-    "start": "cd test/mock-app && begin dev",
+    "test": "tape 'test/**/*.test.mjs' | tap-arc",
+    "start": "cd test/mock-app && enhance dev",
     "lint": "eslint ./src/**/*.mjs --fix"
   },
   "devDependencies": {
