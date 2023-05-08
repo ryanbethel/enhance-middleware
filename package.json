@@ -1,6 +1,6 @@
 {
   "name": "enhance-middleware",
-  "version": "0.0.2-experimental",
+  "version": "0.0.3-experimental",
   "main": "src/index.mjs",
   "files":["src"],
   "scripts": {
