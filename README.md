@@ -107,6 +107,10 @@ There is an alternate usage to wrap just a single middlware function without usi
 ### Backward Compatible
 Enhance middleware is backward compatible with normal enhance API route handlers.
 They can be used together. 
+Code below shows the midWrap function used with old style handlers.  
+This works as expected with on changes required.
+This makes the approach incrementally adoptable.
+If a new style middleware or global middleware is added the midWrap function can be added without changing anything else.
 
 ```JavaScript
 //app/api/index.mjs
@@ -128,7 +132,7 @@ async function two (req) {
 ```
 
 
-### Alternate usage
+### Partial adoption / alternative usage
 
 ## Background / What problem does this solve
 
