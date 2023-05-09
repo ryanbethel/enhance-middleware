@@ -14,7 +14,13 @@ The API will likely change.
 The goal is to test ideas and patterns for middleware to support Enhance.
 
 ## Getting Started
-1. `npm i enhance-middleware`
+
+First install the package with `npm i enhance-middleware`. 
+Use this wrapper in API routes to give an optional response second argument. 
+This response has helper methods for passing data from one middleware to the next. 
+It is fully backward compatible with previous function signature.
+This may be used together with old style API handlers.
+
 
 ## Basic Usage
 
@@ -30,9 +36,11 @@ async function one (req,response) {
 async function two (req,response) {
   return response.addData({second:true})
 }
+// { first:true, second:true }
 ```
 
 ## Global Middleware Usage
+
 ```JavaScript
 //app/middleware/global-middleware.mjs
 import {makeGlobalWrap} from 'enhance-middleware'
@@ -67,6 +75,7 @@ async function one (req,response) {
 async function two (req,response) {
   return response.addData({second:true})
 }
+// { path:'/', authorized:{user:'janedoe'}, first:true, second:true }
 ```
 
 ## API 
