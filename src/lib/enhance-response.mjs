@@ -68,6 +68,15 @@ export default function enhanceResponse(req) {
     response.json = { ...response.json, ...obj }
     return response
   }
+  // Load  multiple properties
+  response.load = function(obj) {
+    for (const key in obj) {
+      if (Object.hasOwnProperty.call(obj, key)) {
+        response[key] = obj[key]
+      }
+    }
+    return response
+  }
 
   response.send = function() {
     const {
@@ -77,11 +86,13 @@ export default function enhanceResponse(req) {
       deleteSession,
       addSession,
       setLocation,
+      clearLocation,
       getData,
       setData,
       clearData,
       deleteData,
       addData,
+      load,
       send,
       ...rest } = response
 
