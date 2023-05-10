@@ -1,18 +1,18 @@
-import {globeWrap} from '../../middleware/global-middleware.mjs'
+import globalWrap from '../../middleware/global-middleware.mjs'
 
-export const get = globeWrap(people, places, things)
+export const get = globalWrap(people, places, things)
 
 
 async function people(req, response) {
-  response.addData({ people: 'Sarah' })
+  response.json = {...(response.json || {}),  people: 'Sarah' }
 }
 
 async function places(req, response) {
-  response.addData({ places: 'Canada' })
+  response.json = {...(response.json || {}),   places: 'Canada' }
   // returning response short cuts chain
   return response
 }
 
 async function things(req, response) {
-  response.addData({ things: 'should not get this' })
+  response.json = {...(response.json || {}),    things: 'should not get this' }
 }

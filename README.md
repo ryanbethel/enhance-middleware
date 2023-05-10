@@ -78,36 +78,72 @@ async function two (req,response) {
 // { path:'/', authorized:{user:'janedoe'}, first:true, second:true }
 ```
 
-## Example
+## Example with form problems
 
 ```JavaScript
+// app/api/books.mjs
 
 export async function get(req) {
-  const { problems, formData, ...newSession } = req.session
+  const { problems, book, ...newSession } = req.session
   if (problems) {
     return {
       session: newSession,
-      json: { problems, formData }
+      json: { problems, book }
     }
+  }
+  return {
+    session: newSession,
   }
 }
 
 export async function post(req) {
-  const session = req?.session
-  let { problems: removedProblems, formData: removedData, ...newSession } = session
+  const session = req.session
+  let { problems: removedProblems, book: removedBook, ...newSession } = session
 
-  let { problems, formData } = await validate(req)
+  let { problems, book } = await validate(req)
 
   if (problems) {
-    let { password:removedPassword, confirmPassword:removedConfirm, ...sanitizedRegister } = register
     return {
-      session: { ...newSession, problems, register: sanitizedRegister },
-      location: '/register/username'
+      session: { ...newSession, problems, formData },
+      location: '/books'
     }
   }
 
   await setData()
   return {
+    session: newSession,
+    location: '/success'
+  }
+}
+```
+
+```JavaScript
+// app/api/books.mjs
+
+export async function get(req,response) {
+  const { problems, book } = response.session
+  if (problems) {
+    return response.setData({problems,book}).deleteSession(['problems', 'book']) 
+  }
+  return response
+}
+
+export async function post(req) {
+  const session = req.session
+  let { problems: removedProblems, book: removedBook, ...newSession } = session
+
+  let { problems, book } = await validate(req)
+
+  if (problems) {
+    return {
+      session: { ...newSession, problems, formData },
+      location: '/books'
+    }
+  }
+
+  await setData()
+  return {
+    session: newSession,
     location: '/success'
   }
 }

@@ -15,22 +15,22 @@ test(`Start local server`, async t => {
 })
 
 test('local middleware work', async t => {
-  const response = await get({ url: baseUrl + '/' })
+  const result = await get({ url: baseUrl + '/' })
   const expected = {people:'Sarah',places:'Canada'}
-  t.deepEqual(response.body,expected, 'local middleware')
+  t.deepEqual(result.body,expected, 'local middleware')
   t.end()
 })
 
 test('global middleware work', async t => {
-  const response = await get({ url: baseUrl + '/foo/bar' })
-  t.equal(response.body.path,"/foo/bar", 'global middleware')
+  const result = await get({ url: baseUrl + '/foo/bar' })
+  t.equal(result.body.path,"/foo/bar", 'global middleware')
   t.end()
 })
 
 test('async middleware work', async t => {
-  const response = await get({ url: baseUrl + '/async-test' })
+  const result = await get({ url: baseUrl + '/async-test' })
   const expected = {one:'1'}
-  t.deepEqual(response.body,expected, 'async middleware')
+  t.deepEqual(result.body,expected, 'async middleware')
   t.end()
 })
 

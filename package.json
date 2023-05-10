@@ -1,12 +1,14 @@
 {
   "name": "enhance-middleware",
   "version": "0.0.3-experimental",
-  "main": "src/index.mjs",
-  "files":["src"],
+  "main": "index.mjs",
+  "files": [
+    "index.mjs"
+  ],
   "scripts": {
     "test": "tape 'test/**/*.test.mjs' | tap-arc",
     "start": "cd test/mock-app && enhance dev",
-    "lint": "eslint ./src/**/*.mjs --fix"
+    "lint": "eslint ./**/*.mjs --fix"
   },
   "devDependencies": {
     "@enhance/arc-plugin-enhance": "^5.0.4",

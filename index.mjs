@@ -1,24 +1,26 @@
-import enhanceResponse from './enhance-response.mjs'
 import { pathToRegexp } from 'path-to-regexp';
 
 export default function midWrap(...chain) {
   const funcChain = Array.isArray(chain[0]) ? chain[0] : chain
-  function endChain(req, response) { return response.send() }
+  function startChain(req) {
+    req.enhanceResponse = {}
+    if (req.hasOwnProperty('session')) {
+      req.enhanceResponse.session = { ...req.session }
+    }
+  }
+  function endChain(req, response) { return response }
   const newChain = funcChain.map(fun => funkWrap(fun))
-  return [ ...newChain, funkWrap(endChain)]
+  return [startChain, ...newChain, funkWrap(endChain)]
 }
 
 export function funkWrap(func) {
   return function(req) {
-    const resp = enhanceResponse(req)
-    let result = func(req, resp)
-    if (result?.send && ((typeof result.send) === 'function')) {
-      return result.send()
-    } else {
-      return result
-    }
+    return func(req, req?.enhanceResponse)
   }
 }
+
+
+// Adding global middleware
 
 export function makeGlobalWrap(globalManifest){
 
@@ -45,7 +47,6 @@ export function makeGlobalWrap(globalManifest){
     return null;
   }
 
-
   function globalHandler(req) {
     const funks = resolvePath(req.path)?.middleware
     if (!funks || !funks?.length) {
@@ -67,10 +68,6 @@ export function makeGlobalWrap(globalManifest){
     return midWrap([globalHandler, ...chain])
   }
 }
-
-
-
-
 
 function clean({ pathTmpl, base, fileNameRegEx }) {
   return pathTmpl.replace(base, '')

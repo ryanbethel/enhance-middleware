@@ -1,3 +1,3 @@
-export default function navData(req,response){
-  response.addData({path:req.path})
+export default function navData(req,res){
+  res.json = {...res.json, path:req.path}
 }

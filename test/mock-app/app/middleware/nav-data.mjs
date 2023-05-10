@@ -1,5 +1,3 @@
-import {enhanceResponse} from 'enhance-middleware'
-export default function navData(req){
-  const response = enhanceResponse(req)
-  response.addData({path:req.path})
+export default function navData(req,res){
+  res.json = {...(res.json || {}), path:req.path}
 }
