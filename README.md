@@ -78,6 +78,41 @@ async function two (req,response) {
 // { path:'/', authorized:{user:'janedoe'}, first:true, second:true }
 ```
 
+## Example
+
+```JavaScript
+
+export async function get(req) {
+  const { problems, formData, ...newSession } = req.session
+  if (problems) {
+    return {
+      session: newSession,
+      json: { problems, formData }
+    }
+  }
+}
+
+export async function post(req) {
+  const session = req?.session
+  let { problems: removedProblems, formData: removedData, ...newSession } = session
+
+  let { problems, formData } = await validate(req)
+
+  if (problems) {
+    let { password:removedPassword, confirmPassword:removedConfirm, ...sanitizedRegister } = register
+    return {
+      session: { ...newSession, problems, register: sanitizedRegister },
+      location: '/register/username'
+    }
+  }
+
+  await setData()
+  return {
+    location: '/success'
+  }
+}
+```
+
 ## API 
 The primary API for `enhance-middleware` is the response helpers exposed in the handler response object.
 
