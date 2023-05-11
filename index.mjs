@@ -19,8 +19,9 @@ export function funkWrap(func) {
   }
 }
 
-
-// Adding global middleware
+/***********************************************************************
+* Global Middleware Below
+* **********************************************************************/
 
 export function makeGlobalWrap(globalManifest){
 
