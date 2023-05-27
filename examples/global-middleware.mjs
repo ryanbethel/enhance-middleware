@@ -6,10 +6,9 @@ const manifest = {
   '/$$': [otherStuff, navData],
   '/try/$$': otherStuff,
 }
-export default manifest
 
 function otherStuff(req, res) {
-  res.addData({ otherStuff: 'otherStuff' })
+  res.json = {...(res.json || {}), otherStuff: 'otherStuff' }
 }
 
 export const globeWrap = makeGlobalWrap(manifest)
