@@ -4,8 +4,6 @@ A middleware wrapper for the enhance html first framework.
 Includes:
 - Global middleware handlers
 - Response for data passing between middleware
-- Helpers for sessions
-- Helpers for data passing across middleware
 
 ## *Experimental*
 
@@ -30,11 +28,12 @@ import midWrap from 'enhance-middleware'
 export const get = midWrap(one, two)
 
 async function one (req,response) {
-  response.addData({first:true})
+  response.json = { ...(response.json || {}), first:true }
 }
 
 async function two (req,response) {
-  return response.addData({second:true})
+  response.json = { ...(response.json || {}), second:true }
+  return response
 }
 // { first:true, second:true }
 ```
@@ -52,11 +51,12 @@ const manifest = {
 }
 
 function navData(req,response){
-  response.addData({path:req.path})
+  response.json = {...(response.json || {}), path:req.path }
 }
+
 function accountInfo(req, response) {
-  const session = response.getSession()
-  response.addData({ authorized: session?.authorized ? session?.authorized : false })
+  const session = response.session
+  response.json = {...(response.json || {}), authorized: session?.authorized ? session?.authorized : false }
 }
 
 export const globeWrap = makeGlobalWrap(manifest)
@@ -69,11 +69,11 @@ import globeWrap from '../middleware/global-middleware.mjs'
 export const get = globeWrap(one, two)
 
 async function one (req,response) {
-  response.addData({first:true})
+  response.json = {...(response.json || {}), first:true }
 }
 
 async function two (req,response) {
-  return response.addData({second:true})
+  response.json = {...(response.json || {}), second:true}
 }
 // { path:'/', authorized:{user:'janedoe'}, first:true, second:true }
 ```
@@ -149,40 +149,13 @@ export async function post(req) {
 }
 ```
 
-## API 
-The primary API for `enhance-middleware` is the response helpers exposed in the handler response object.
-
-Each of these methods (except for getSession and getData) returns the response object so they can be chained together.
-
-### Session Helpers
-- `getSession()`: Get the current session object.
-- `setSession(newSession)`: Set a new obect as the outgoing session.
-- `clearSession()`: Clear the session.
-- `deleteSession(keys)`: Delete selected keys from the session. Takes a single string key, or an Array of strings of keys to remove.
-- `addSession(obj)`: Add an object to the session by spreading it into the current session. 
-
-### Redirect Location Helpers
-- `setLocation(path)`: Set a redirect location for the response. 
-- `clearLocation()`: Clear any redirect path that has been set for the response.
-
-### Data/JSON Helpers
-- `getData()`: Get the `json` data that has been set on the response.
-- `setData(obj)`: Set a new object as the `json` data for the response. 
-- `clearData()`: Clear any `json` data set for the response.
-- `deleteData(keys)`: Delete and remove selected keys from the response. Accepts a string for a single key or an array of strings.
-- `addData(obj)`: Add an object to `json` data by spreading it into the existing data.
-
-### Send Response
-- `send()`: Removes the methods like `getData` etc. from the response object and returns the clean response. This is handled internally by the wrapper function and does not need to be explicitly called in most situations.
-
 ## What it does
 Enhance-middleware is consumed as a wrapper function used in any Enhance API route.
-1. Creates a response object with helpers
+1. Creates a response object
 2. Adds that object to handlers 
 3. Injects global middleware for matching routes
 To use the global middleware the manifest of middleware is passed to a fuction that returns a new wrapper with the global middleware injected.
 There is an alternate usage to wrap just a single middlware function without using the chain wrapper or the global middleware.
-
 
 ### Backward Compatible
 Enhance middleware is backward compatible with normal enhance API route handlers.
